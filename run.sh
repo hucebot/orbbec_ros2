@@ -17,6 +17,7 @@ if [ $isRunning -eq 0 ]; then
         --pid host \
         --privileged \
         -it \
+        -v $(pwd):/host_ws \
         -v /dev:/dev \
         -v /run/udev:/run/udev \
         --device /dev/dri \
