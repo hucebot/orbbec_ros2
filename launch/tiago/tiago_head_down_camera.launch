@@ -9,10 +9,10 @@
         <arg name="enable_colored_point_cloud" value="true"/>
         <arg name="color_width" value="1280"/>
         <arg name="color_height" value="720"/>
-        <arg name="depth_width" value="320"/>
-        <arg name="depth_height" value="288"/>
-        <arg name="ir_width" value="320"/>
-        <arg name="ir_height" value="288"/>
+        <arg name="depth_width" value="640"/>
+        <arg name="depth_height" value="576"/>
+        <arg name="ir_width" value="640"/>
+        <arg name="ir_height" value="576"/>
         <arg name="device_num" value="2"/>
         <arg name="sync_mode" value="free_run"/>
         <arg name="ordered_pc" value="true"/>
