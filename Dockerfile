@@ -49,7 +49,7 @@ RUN apt install libgflags-dev nlohmann-json3-dev  \
     ros-${ROS_DISTRO}-image-publisher ros-${ROS_DISTRO}-camera-info-manager \
     ros-${ROS_DISTRO}-diagnostic-updater ros-${ROS_DISTRO}-diagnostic-msgs ros-${ROS_DISTRO}-statistics-msgs \
     ros-${ROS_DISTRO}-backward-ros libdw-dev ros-${ROS_DISTRO}-cv-bridge
-    
+
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash && \
     colcon build --event-handlers console_direct+ --cmake-args -DCMAKE_BUILD_TYPE=Release
 
@@ -58,6 +58,8 @@ RUN sysctl net.ipv4.ipfrag_time=3
 RUN sysctl net.ipv4.ipfrag_high_thresh=134217728
 
 RUN echo "export FASTDDS_BUILTIN_TRANSPORTS=LARGE_DATA?max_msg_size=1MB&soets_size=1MB&non_blocking=true&tcp_negotiation_timeout=50" >> ~/.bashrc
+
+RUN apt-get update && apt-get install -y ros-humble-rmw-cyclonedds-cpp
 
 ###### Source ROS2 and workspace
 RUN echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc

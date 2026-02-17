@@ -17,12 +17,16 @@ if [ $isRunning -eq 0 ]; then
         --pid host \
         --privileged \
         -it \
+        -v $(pwd)/configs/:/xml_configs \
+        -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp\
+        -e CYCLONEDDS_URI=/xml_configs/cyclonedds.xml\
         -v $(pwd):/host_ws \
         -v /dev:/dev \
         -v /run/udev:/run/udev \
         --device /dev/dri \
         --device /dev/snd \
         --device /dev/input \
+        -e ROS_DOMAIN_ID=1\
         --device /dev/bus/usb \
         -w /ros2_ws \
         orbbec_ros2:latest
