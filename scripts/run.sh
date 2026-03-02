@@ -18,8 +18,8 @@ if [ $isRunning -eq 0 ]; then
         --privileged \
         -it \
         -v $(pwd)/configs/:/xml_configs \
-        -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp\
-        -e CYCLONEDDS_URI=/xml_configs/cyclonedds.xml\
+        -e RMW_IMPLEMENTATION=rmw_cyclonedds_cpp \
+        -e CYCLONEDDS_URI=/xml_configs/cyclonedds.xml \
         -v $(pwd):/host_ws \
         -v /dev:/dev \
         -v /run/udev:/run/udev \
