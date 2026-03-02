@@ -12,9 +12,7 @@
             <ParticipantIndex>auto</ParticipantIndex>
             <Peers>
                 <Peer Address="10.68.0.132" />
-                <Peer Address="10.68.0.139" />
                 <Peer Address="10.68.0.142" />
-                <Peer Address="10.68.0.145" />
                 <Peer Address="10.68.0.1" />
                 <Peer Address="localhost" />
             </Peers>

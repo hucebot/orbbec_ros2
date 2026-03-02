@@ -1,0 +1,1 @@
+docker build -t orbbec_ros2 . -f .ci/Dockerfile
