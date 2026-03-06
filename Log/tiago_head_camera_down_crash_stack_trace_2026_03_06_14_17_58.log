@@ -1,0 +1,17 @@
+Received signal: 6
+Stack trace (most recent call last) in thread 254:
+#14   Object "[0xffffffffffffffff]", at 0xffffffffffffffff, in 
+#13   Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15ef28cf, in 
+#12   Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15e60ac2, in 
+#11   Object "/usr/lib/x86_64-linux-gnu/libstdc++.so.6", at 0x79bd160f3252, in 
+#10   Object "/ros2_ws/install/orbbec_camera/lib/libOrbbecSDK.so.2", at 0x79bd0a83b32a, in 
+#9    Object "/ros2_ws/install/orbbec_camera/lib/libOrbbecSDK.so.2", at 0x79bd0a834071, in 
+#8    Object "/usr/lib/x86_64-linux-gnu/libstdc++.so.6", at 0x79bd160c54d7, in __cxa_throw
+#7    Object "/usr/lib/x86_64-linux-gnu/libstdc++.so.6", at 0x79bd160c5276, in std::terminate()
+#6    Object "/usr/lib/x86_64-linux-gnu/libstdc++.so.6", at 0x79bd160c520b, in 
+#5    Object "/usr/lib/x86_64-linux-gnu/libstdc++.so.6", at 0x79bd160b9b9d, in 
+#4    Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15df47f2, in abort
+#3    Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15e0e475, in raise
+#2    Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15e629fc, in pthread_kill
+#1    Object "/usr/lib/x86_64-linux-gnu/libc.so.6", at 0x79bd15e0e51f, in 
+#0    Object "/ros2_ws/install/orbbec_camera/lib/liborbbec_camera.so", at 0x79bd0b3ffd91, in signalHandler(int)

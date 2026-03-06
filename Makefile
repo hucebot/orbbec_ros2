@@ -3,7 +3,7 @@ REGISTRY = registry.gitlab.inria.fr
 IMAGE_NAME = hucebot/code/mrbeam/mrbeam_controller
 TAG = v0.1.0
 
-.PHONY: login build-dev run build-dep deploy stop logs
+.PHONY: login build-dev run build-dep deploy stop logs clean help
 
 ## login: Login to the GitLab registry
 login:
@@ -16,7 +16,6 @@ build-dev:
 ## run: Start interactive dev container
 run:
 	xhost +local:docker
-	-sudo sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
 	docker compose -f docker-compose.dev.yaml up -d
 	docker exec -it orbbec_dev /bin/bash
 
@@ -27,7 +26,7 @@ build-dep:
 
 ## deploy: Start the production container in background
 deploy:
-	docker compose -f docker-compose.yaml up -d
+	docker compose -f docker-compose.yaml up -d --force-recreate
 	@echo "Deployment started. Use 'make logs' to see the camera output."
 
 ## logs: Follow live logs from the deployment container
@@ -38,3 +37,16 @@ logs:
 stop:
 	docker compose -f docker-compose.dev.yaml stop
 	docker compose -f docker-compose.yaml stop
+
+## clean: Remove all local ROS2 build artifacts and docker containers
+clean:
+	docker compose -f docker-compose.dev.yaml down --remove-orphans
+	docker compose -f docker-compose.yaml down --remove-orphans
+	rm -rf build/ install/ log/
+	@echo "Cleanup complete."
+
+help:
+	@echo "Usage: make [target]"
+	@echo ""
+	@echo "Targets:"
+	@grep -E '^##' Makefile | sed -e 's/## //g' -e 's/: /:	/g'

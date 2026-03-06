@@ -20,13 +20,15 @@ RUN source /opt/ros/${ROS_DISTRO}/setup.bash && rosdep init || true && rosdep up
     rosdep install -i --from-path src --rosdistro ${ROS_DISTRO} --skip-keys=librealsense2 -y
 RUN source /opt/ros/${ROS_DISTRO}/setup.bash && colcon build
 
+
 COPY .ci/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
 # --- STAGE 2: Dev ---
 FROM base AS dev
-CMD ["/bin/bash"]
+WORKDIR /host_ws
+CMD /bin/bash
 
 # --- STAGE 3: Dep ---
 FROM base AS dep

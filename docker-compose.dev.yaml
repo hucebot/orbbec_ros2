@@ -9,9 +9,13 @@ services:
     network_mode: host
     environment:
       - DISPLAY=${DISPLAY}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CYCLONEDDS_URI=/etc/ros2/cyclonedds.xml
+      - ROS_DOMAIN_ID=1
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - .:/host_ws
       - /dev:/dev
+      - ./configs/cyclonedds.xml:/etc/ros2/cyclonedds.xml
     stdin_open: true
     tty: true

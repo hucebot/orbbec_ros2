@@ -1,41 +1,106 @@
 # ORBBEC ROS2
 
-## Installation
+This repository provides a Docker-based environment for Orbbec cameras (Femto Bolt, etc.) used on the TIAGo robot. It includes a **Dev** mode for live code editing and a **Deploy** mode for standalone execution.
 
-To build the Docker image, run the following command in the directory containing the Dockerfile:
+## 🛠 Installation
 
-```bash
-sh build.sh
-```
+Before running, ensure the **NVIDIA Container Toolkit** is installed on your host.
 
-This will create a Docker image with all the necessary dependencies for ORBBEC ROS2.
+### 1. Host USB Setup
 
-## Usage
-
-To run a container from the built image, use the following command:
+To handle high-bandwidth point cloud streams, increase the USB buffer size on your host machine:
 
 ```bash
-sh run.sh
+sudo sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+
 ```
 
-This will start a Docker container with access to the host's devices, allowing interaction with ORBBEC sensors.
+### 2. Build Images
 
-Then, you can launch the desired ROS2 nodes inside the container as needed.
-
-**Tiago head-down camera** (camera name, resolutions, serial, and static transform from `ci/world` to camera optical frame):
+Build the development and deployment images using the Makefile:
 
 ```bash
-ros2 launch /host_ws/launch/tiago/tiago_head_down_camera.launch
+# For development (interactive)
+make build-dev
+
+# For deployment (self-contained)
+make build-dep
+
 ```
 
-**Tiago both cameras** (head-down and head-front cameras with their respective static transforms):
+---
+
+## 🚀 Usage
+
+### Development Mode
+
+Starts a container with your local directory mounted to `/host_ws`. Use this for debugging and live code changes.
+
+```bash
+make run
+
+```
+
+Inside the container, you can run any launch command manually:
 
 ```bash
 ros2 launch /host_ws/launch/tiago/tiago_both_camera.launch
+
 ```
 
-**Generic Femto Bolt** (custom parameters):
+### Deployment Mode
+
+Starts a standalone, detached container that automatically launches the **Tiago both cameras** setup. No host volumes are required as the code is baked into the image.
 
 ```bash
-ros2 launch orbbec_camera femto_bolt.launch.py enable_point_cloud:=true enable_colored_point_cloud:=true depth_width:=1024 depth_height:=1024 ir_width:=1024 ir_height:=1024 depth_fps:=15 ir_fps:=15 enable_decimation_filter:=true enable_spatial_filter:=true
+make deploy
+
 ```
+
+**Monitor Deployment:**
+To see the camera stream logs and ROS 2 output:
+
+```bash
+make logs
+
+```
+
+---
+
+## 📡 ROS 2 Launch Commands
+
+Available launch configurations within the environment:
+
+**Tiago head-down camera:**
+
+```bash
+ros2 launch /host_ws/launch/tiago/tiago_head_down_camera.launch
+
+```
+
+**Tiago both cameras (Head-down & Head-front):**
+
+```bash
+ros2 launch /host_ws/launch/tiago/tiago_both_camera.launch
+
+```
+
+**Generic Femto Bolt (High Res):**
+
+```bash
+ros2 launch orbbec_camera femto_bolt.launch.py \
+    enable_point_cloud:=true \
+    depth_width:=1024 \
+    depth_height:=1024 \
+    depth_fps:=15
+
+```
+
+---
+
+## 🧹 Maintenance
+
+* **Stop containers:** `make stop`
+* **Clean builds:** `make clean`
+* **Registry login:** `make login`
+
