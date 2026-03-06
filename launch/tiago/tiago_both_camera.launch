@@ -22,9 +22,9 @@
     <node pkg="tf2_ros"
         exec="static_transform_publisher"
         name="camera_to_robot"
-        args="0.125 -0.005 1.293 0 0.785398163 0.0 ci/base_footprint tiago_head_camera_down_link"
+        args="0.125 -0.005 1.293 0 0.785398163 0.0 opensot/base_footprint tiago_head_camera_down_link"
     />
-    
+
     <include file="$(find-pkg-share orbbec_camera)/launch/femto_bolt.launch.py">
         <!-- unique camera name-->
         <arg name="camera_name" value="tiago_head_camera_front" />
@@ -48,6 +48,6 @@
     <node pkg="tf2_ros"
         exec="static_transform_publisher"
         name="head_to_front_camera"
-        args="0.135 -0.008 1.39 0 0 0 ci/base_footprint tiago_head_camera_front_link"
+        args="0.135 -0.008 1.39 0 0 0 opensot/base_footprint tiago_head_camera_front_link"
     />
 </launch>

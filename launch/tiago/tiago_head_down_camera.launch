@@ -17,11 +17,11 @@
         <arg name="sync_mode" value="free_run"/>
         <arg name="ordered_pc" value="true"/>
     </include>
-    
+
     <!-- Publish the static transform attaching the camera to the robot -->
     <node pkg="tf2_ros"
           exec="static_transform_publisher"
           name="camera_to_robot"
-          args="0.125 -0.005 1.293 -1.570796 0.0 -2.35619 ci/world tiago_head_down_camera_color_optical_frame"
+          args="0.125 -0.005 1.293 -1.570796 0.0 -2.35619 opensot/world tiago_head_down_camera_color_optical_frame"
     />
 </launch>
