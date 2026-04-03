@@ -40,7 +40,7 @@ COPY configs/cyclonedds.xml /etc/ros2/cyclonedds.xml
 
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 ENV CYCLONEDDS_URI=/etc/ros2/cyclonedds.xml
-ENV ROS_DOMAIN_ID=1
+ENV ROS_DOMAIN_ID=39
 
 # Use shell form so the environment is sourced correctly
-CMD ros2 launch /ros2_ws/launch/tiago/tiago_both_camera.launch
+CMD ros2 launch /ros2_ws/launch/franka/franka_external.launch

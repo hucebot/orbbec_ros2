@@ -1,7 +1,7 @@
 # Variables
 REGISTRY = registry.gitlab.inria.fr
-IMAGE_NAME = hucebot/code/mrbeam/mrbeam_controller
-TAG = v0.1.0
+IMAGE_NAME = hucebot/code/orbbec_ros2/orbbec_image
+TAG = franka
 
 .PHONY: login build-dev run build-dep deploy stop logs clean help
 
