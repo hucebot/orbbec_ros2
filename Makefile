@@ -5,7 +5,7 @@ export
 # Fallback tag if CAMERA_NAME isn't set in .env
 TAG ?= $(CAMERA_NAME)
 
-.PHONY: login build deploy stop logs clean help install-udev list-devices
+.PHONY: login build deploy stop logs clean help install-udev list-devices rviz attach
 
 ## login: Login to the container registry defined in .env
 login:
@@ -51,8 +51,21 @@ install-udev:
 list-devices:
 	bash scripts/list_devices.sh
 
+## rviz: Launch RViz2 attached to the running deployment container for debugging
+rviz:
+	@echo "Opening RViz2... (Ensure the container is running via 'make deploy')"
+	xhost +local:docker
+	docker exec -it orbbec_deploy /entrypoint.sh rviz2
+
+## attach: Open an interactive bash shell inside the running deployment container
+attach:
+	@echo "Attaching interactive shell to 'orbbec_deploy'..."
+	docker exec -it orbbec_deploy /entrypoint.sh bash
+
 help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
 	@grep -E '^##' Makefile | sed -e 's/## //g' -e 's/: /:	/g'
+
+

@@ -19,16 +19,20 @@
 
         <arg name="depth_registration" value="true" />
         <arg name="enable_colored_point_cloud" value="true" />
-        <arg name="depth_width" value="640"/>
-        <arg name="depth_height" value="576"/>
+        <arg name="depth_width" value="640" />
+        <arg name="depth_height" value="576" />
         <arg name="ir_width" value="640" />
         <arg name="ir_height" value="576" />
         <arg name="sync_mode" value="free_run" />
         <arg name="tf_publish_rate" value="90.0" />
-        <arg name="color_fps" value="30"/>
-        <arg name="depth_fps" value="30"/>
-        <arg name="ir_fps" value="30"/>
+        <arg name="color_fps" value="30" />
+        <arg name="depth_fps" value="30" />
+        <arg name="ir_fps" value="30" />
         <arg name="enable_color_auto_exposure" value="false" />
         <arg name="enable_ir_auto_exposure" value="false" />
     </include>
+
+    <node if="$(var publish_tf)" pkg="tf2_ros" exec="static_transform_publisher"
+        name="$(var tf_parent_frame)_to_$(var camera_name)_link"
+        args="$(var tf_x) $(var tf_y) $(var tf_z) $(var tf_yaw) $(var tf_pitch) $(var tf_roll) $(var tf_parent_frame) $(var camera_name)_link" />
 </launch>

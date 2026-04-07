@@ -40,7 +40,6 @@ COPY launch /ros2_ws/launch
 COPY configs /etc/ros2/configs
 
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-ENV ROS_DOMAIN_ID=39
 
 CMD ros2 launch /ros2_ws/launch/orbbec/orbbec.launch \
     camera_name:=${CAMERA_NAME} \
@@ -49,4 +48,12 @@ CMD ros2 launch /ros2_ws/launch/orbbec/orbbec.launch \
     color_width:=${COLOR_WIDTH} \
     color_height:=${COLOR_HEIGHT} \
     ordered_pc:=${ORDERED_PC} \
-    color_exposure:=${COLOR_EXPOSURE}
+    color_exposure:=${COLOR_EXPOSURE} \
+    publish_tf:=${PUBLISH_TF} \
+    tf_x:=${TF_X} \
+    tf_y:=${TF_Y} \
+    tf_z:=${TF_Z} \
+    tf_yaw:=${TF_YAW} \
+    tf_pitch:=${TF_PITCH} \
+    tf_roll:=${TF_ROLL} \
+    tf_parent_frame:=${TF_PARENT_FRAME}
