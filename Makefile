@@ -1,49 +1,55 @@
-# Variables
-REGISTRY = registry.gitlab.inria.fr
-IMAGE_NAME = hucebot/code/orbbec_ros2/orbbec_image
-TAG = franka
+# Load environment variables from .env
+-include .env
+export
 
-.PHONY: login build-dev run build-dep deploy stop logs clean help
+# Fallback tag if CAMERA_NAME isn't set in .env
+TAG ?= $(CAMERA_NAME)
 
-## login: Login to the GitLab registry
+.PHONY: login build deploy stop logs clean help install-udev list-devices
+
+## login: Login to the container registry defined in .env
 login:
+	@if [ -z "$(REGISTRY)" ]; then echo "REGISTRY not defined in .env"; exit 1; fi
 	docker login $(REGISTRY)
 
-## build-dev: Build the dev image
-build-dev:
-	docker compose -f docker-compose.dev.yaml build
-
-## run: Start interactive dev container
-run:
-	xhost +local:docker
-	docker compose -f docker-compose.dev.yaml up -d
-	docker exec -it orbbec_dev /bin/bash
-
-## build-dep: Build and tag the production image
-build-dep:
+## build: Build the production image (and tag it if REGISTRY and IMAGE_NAME are set in .env)
+build:
 	docker compose -f docker-compose.yaml build
-	docker tag orbbec_ros2:latest $(REGISTRY)/$(IMAGE_NAME):$(TAG)
+	@if [ -n "$(REGISTRY)" ] && [ -n "$(IMAGE_NAME)" ]; then \
+		docker tag orbbec_ros2:latest $(REGISTRY)/$(IMAGE_NAME):$(TAG); \
+		echo "Tagged image as $(REGISTRY)/$(IMAGE_NAME):$(TAG)"; \
+	else \
+		echo "REGISTRY or IMAGE_NAME not found in .env. Skipping remote tagging."; \
+	fi
 
 ## deploy: Start the production container in background
 deploy:
 	docker compose -f docker-compose.yaml up -d --force-recreate
-	@echo "Deployment started. Use 'make logs' to see the camera output."
+	@echo "Deployment started for camera: $(CAMERA_NAME). Use 'make logs' to view."
 
 ## logs: Follow live logs from the deployment container
 logs:
 	docker compose -f docker-compose.yaml logs -f
 
-## stop: Stop all containers
+## stop: Stop the deployment container
 stop:
-	docker compose -f docker-compose.dev.yaml stop
 	docker compose -f docker-compose.yaml stop
 
-## clean: Remove all local ROS2 build artifacts and docker containers
+## clean: Remove all local ROS 2 build artifacts and docker containers
 clean:
-	docker compose -f docker-compose.dev.yaml down --remove-orphans
 	docker compose -f docker-compose.yaml down --remove-orphans
 	rm -rf build/ install/ log/
 	@echo "Cleanup complete."
+
+## install-udev: Install host udev rules and increase USB buffer (requires sudo)
+install-udev:
+	@echo "Installing udev rules on the host..."
+	sudo bash scripts/udev_rules.sh
+	sudo sh -c 'echo 1000 > /sys/module/usbcore/parameters/usbfs_memory_mb'
+
+## list-devices: List all connected Orbbec USB devices
+list-devices:
+	bash scripts/list_devices.sh
 
 help:
 	@echo "Usage: make [target]"

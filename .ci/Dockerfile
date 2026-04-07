@@ -36,11 +36,17 @@ FROM base AS dep
 USER root
 
 COPY launch /ros2_ws/launch
-COPY configs/cyclonedds.xml /etc/ros2/cyclonedds.xml
+# Copy the whole folder so both XMLs are available
+COPY configs /etc/ros2/configs
 
 ENV RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-ENV CYCLONEDDS_URI=/etc/ros2/cyclonedds.xml
 ENV ROS_DOMAIN_ID=39
 
-# Use shell form so the environment is sourced correctly
-CMD ros2 launch /ros2_ws/launch/franka/franka_external.launch
+CMD ros2 launch /ros2_ws/launch/orbbec/orbbec.launch \
+    camera_name:=${CAMERA_NAME} \
+    serial_number:=${SERIAL_NUMBER} \
+    device_num:=${DEVICE_NUM} \
+    color_width:=${COLOR_WIDTH} \
+    color_height:=${COLOR_HEIGHT} \
+    ordered_pc:=${ORDERED_PC} \
+    color_exposure:=${COLOR_EXPOSURE}
