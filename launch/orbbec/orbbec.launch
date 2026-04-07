@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="camera_name" default="orbbec_camera" />
+    <arg name="serial_number" default="" />
+    <arg name="device_num" default="1" />
+    <arg name="color_width" default="1280" />
+    <arg name="color_height" default="720" />
+    <arg name="ordered_pc" default="true" />
+    <arg name="color_exposure" default="150" />
+
+    <include file="$(find-pkg-share orbbec_camera)/launch/femto_bolt.launch.py">
+        <arg name="camera_name" value="$(var camera_name)" />
+        <arg name="serial_number" value="$(var serial_number)" />
+        <arg name="device_num" value="$(var device_num)" />
+        <arg name="color_width" value="$(var color_width)" />
+        <arg name="color_height" value="$(var color_height)" />
+        <arg name="ordered_pc" value="$(var ordered_pc)" />
+        <arg name="color_exposure" value="$(var color_exposure)" />
+
+        <arg name="depth_registration" value="true" />
+        <arg name="enable_colored_point_cloud" value="true" />
+        <arg name="depth_width" value="640" />
+        <arg name="depth_height" value="576" />
+        <arg name="ir_width" value="640" />
+        <arg name="ir_height" value="576" />
+        <arg name="sync_mode" value="free_run" />
+        <arg name="tf_publish_rate" value="90.0" />
+        <arg name="color_fps" value="30" />
+        <arg name="depth_fps" value="30" />
+        <arg name="ir_fps" value="30" />
+        <arg name="enable_color_auto_exposure" value="false" />
+        <arg name="enable_ir_auto_exposure" value="false" />
+    </include>
+
+    <node if="$(var publish_tf)" pkg="tf2_ros" exec="static_transform_publisher"
+        name="$(var tf_parent_frame)_to_$(var camera_name)_link"
+        args="$(var tf_x) $(var tf_y) $(var tf_z) $(var tf_yaw) $(var tf_pitch) $(var tf_roll) $(var tf_parent_frame) $(var camera_name)_link" />
+</launch>
