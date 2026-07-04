@@ -29,5 +29,5 @@
 
     <!-- Publish the static transform attaching the camera to the robot -->
     <node pkg="tf2_ros" exec="static_transform_publisher" name="panda_to_camera"
-        args="0.7 0.005 0.12 3.14159 0.3 0. panda_link0 orbbec_external_franka_link" />
+        args="0.66 0.05 0.54 3.14159 0.9 0. panda_link0 orbbec_external_franka_link" />
 </launch>
